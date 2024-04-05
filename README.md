@@ -8,8 +8,21 @@ Loadable kernel modules, kernel mutexes (mutual exclusions), spinlocks, etc.
 - [Writing a Linux Kernel Module — Part 2: A Character Device](http://derekmolloy.ie/writing-a-linux-kernel-module-part-2-a-character-device/)
 - [The Linux Kernel documentation](https://www.kernel.org/doc/html/latest/)
 
+## What Modules are in my Kernel?
+
+To discover what modules are already loaded within your current kernel:
+```
+sudo lsmod
+```
+- Modules are stored within the file ```/proc/modules```, so you can also see them with:
+```sudo cat /proc/modules```
+
 ## A simple Kernel Module
 
+- Setup, on Ubuntu/Debian GNU/Linux:
+```
+sudo apt-get install build-essential
+```
 - Before building anything, it is necessary to search and install the header files for the kernel. In my case, Linux kernel headers for version 6.5.0 on 64 bit x86 SMP.
 ```c
 apt-cache search linux-headers-`uname -r`
@@ -18,3 +31,4 @@ apt-cache search linux-headers-`uname -r`
 ```c
 sudo apt-get install kmod linux-headers-6.5.0-26-generic
 ```
+
