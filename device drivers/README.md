@@ -128,7 +128,7 @@ sudo mknod /dev/mychardev c MAJOR_NUMBER 0
 ```c
 echo "Hello from user space" | sudo tee /dev/mychardev
 ```
-- To access the device file created ```/dev/mychardev``` and interact with the driver:
+- To access (read from) the device file created ```/dev/mychardev``` and interact with the driver:
 ```c
 sudo cat /dev/mychardev
 ```
