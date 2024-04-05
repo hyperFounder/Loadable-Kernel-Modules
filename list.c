@@ -78,5 +78,4 @@ module_init(linkedlist_init);
 module_exit(linkedlist_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Your Name");
 MODULE_DESCRIPTION("Kernel module with simple linked list");
