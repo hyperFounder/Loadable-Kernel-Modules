@@ -41,11 +41,16 @@ brw-rw---- 1 root disk 8, 16 Jan  3 09:02 /dev/sdb
 - ```file_operations fops``` is commonly used in Linux kernel programming for implementing device drivers:
 ```c
 struct file_operations fops = { 
-    .read = device_read,      // Function pointer for reading from the device
-    .write = device_write,    // Function pointer for writing to the device
+    .read = device_read,      // This function is called whenever device is being read from user space (i.e. data is being sent from the device to the user). Hence, use copy_to_user() function.
+    .write = device_write,    // This function is called whenever the device is being written to from user space (i.e. data is sent from user space to the device). Hence, use copy_from_user() function.
     .open = device_open,      // Function pointer for opening the device
     .release = device_release // Function pointer for releasing the device
 };
+
+dev_open(): Called each time the device is opened from user space.
+dev_read(): Called when data is sent from the device to user space.
+dev_write(): Called when data is sent from user space to the device.
+dev_release(): Called when the device is closed in user space.
 ```
 - What is ```ioctl```? It stands for "input-output" control and is used to perform device-specific input/output operations.
 
