@@ -36,7 +36,7 @@ sudo apt-get install kmod linux-headers-6.5.0-26-generic
 ### The proc filesystem and Kernel and User space
 - The ```/proc``` is the process directory and acts as an interface between user and kernel spaces.
 - - User processes can read from and write to the files in ```/proc``` directory
-  - The kernel will then handle these read/writes and perform the requested actions
+  - The kernel will then handle these read/writes and perform the requested actions.
 ---
 - Let's take a look at this kernel module. These are our header files.
 ```c
@@ -64,7 +64,7 @@ static ssize_t custom_read(struct file* file, char __user* user_buffer, size_t c
 }
 
 static const struct proc_ops proc_fops = {
-    .proc_read = custom_read
+    .proc_read = custom_read // reading from a /proc entry
 };
 ```
 - Let's now initialise our kernel module.
