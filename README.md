@@ -3,7 +3,7 @@ Loadable kernel modules, kernel mutexes (mutual exclusions), spinlocks, etc.
 
 ### Tutorials and documentation
 
-- [Linux kernel programming](https://sysprog21.github.io/lkmpg/)
+- [Linux module kernel programming](https://sysprog21.github.io/lkmpg/)
 - [Writing a Linux Kernel Module — Part 1: Introduction](http://derekmolloy.ie/writing-a-linux-kernel-module-part-1-introduction/)
 - [Writing a Linux Kernel Module — Part 2: A Character Device](http://derekmolloy.ie/writing-a-linux-kernel-module-part-2-a-character-device/)
 - [The Linux Kernel documentation](https://www.kernel.org/doc/html/latest/)
