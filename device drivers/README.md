@@ -37,20 +37,98 @@ brw-rw---- 1 root disk 8, 16 Jan  3 09:02 /dev/sdb
 ```
 - You can look at these two device files and know instantly that they are block devices and are handled by same driver (block major 8).
 ---
-### Device Drivers
+### A Linux kernel device driver
 - ```file_operations fops``` is commonly used in Linux kernel programming for implementing device drivers:
 ```c
 struct file_operations fops = { 
-    .read = device_read,      // This function is called whenever device is being read from user space (i.e. data is being sent from the device to the user). Hence, use copy_to_user() function.
+    .read = device_read,      // Read from the device (so data is being sent from the device to the user). Hence, use copy_to_user().
     .write = device_write,    // This function is called whenever the device is being written to from user space (i.e. data is sent from user space to the device). Hence, use copy_from_user() function.
-    .open = device_open,      // Function pointer for opening the device
-    .release = device_release // Function pointer for releasing the device
+    .open = device_open,      //  This is called each time the device is opened from user space.
+    .release = device_release //  This is called when the device is closed in user space.
 };
 
-dev_open(): Called each time the device is opened from user space.
-dev_read(): Called when data is sent from the device to user space.
-dev_write(): Called when data is sent from user space to the device.
-dev_release(): Called when the device is closed in user space.
 ```
 - What is ```ioctl```? It stands for "input-output" control and is used to perform device-specific input/output operations.
 
+- The device open function is called each time the device is opened.
+- - A counter is incremented.
+```c
+// Device open function
+static int mychardev_open(struct inode *inode, struct file *file) {
+    numberTimes += 1;
+    printk(KERN_INFO "Device opened %ld times\n", n);
+    return 0;
+}
+```
+- This function is called when we read from the device.
+- - i.e: data is being sent from the device to the user. Hence, use ```copy_to_user()```.
+```c
+/ Device read function
+static ssize_t mychardev_read(struct file *file, char __user *user_buffer, size_t count, loff_t *offset) {
+    char message[] = "Hello from the kernel!\n";
+    size_t message_len = strlen(message);
+    if (copy_to_user(user_buffer, message, message_len) != 0) {
+        return -EFAULT;
+    }
+    return message_len;
+}
+```
+- This function is called whenever the device is being written to from user space.
+- - i.e. data is sent from user space to the device. Hence, use ```copy_from_user()``` function.
+```c
+// Device write function
+static ssize_t mychardev_write(struct file *file, const char __user *user_buffer, size_t count, loff_t *offset) {
+    char kernel_buffer[256];  // Buffer to hold the data from userspace
+    // Check if the provided buffer address is valid
+    if (!user_buffer) {
+        return -EINVAL;
+    }
+    // Copy data from userspace to kernel buffer
+    if (copy_from_user(kernel_buffer, user_buffer, count) != 0) {
+        return -EFAULT;
+    }
+    // Print the data received from userspace
+    printk(KERN_INFO "Received data from userspace: %s\n", kernel_buffer);
+    // Return the number of bytes written
+    return count;
+}
+```
+- This is our initialisation function. We need to registed the device and assign a ```major number```.
+```c
+// Module initialization function
+static int __init mychardev_init(void) {
+    // Register device
+    major_number = register_chrdev(0, DEVICE_NAME, &fops);
+    if (major_number < 0) {
+        printk(KERN_ALERT "Failed to register a major number\n");
+        return major_number;
+    }
+    printk(KERN_INFO "Registered device with major number %d\n", major_number);
+    return 0;
+}
+```
+- Then, our cleanup function. We need to unregister the device.
+```c
+// Module cleanup function
+static void __exit mychardev_exit(void) {
+    // Unregister device
+    unregister_chrdev(major_number, DEVICE_NAME);
+    printk(KERN_INFO "Unregistered device\n");
+}
+```
+---
+### Setup instructions
+
+- Create the device file using ```mknod```.
+```c
+sudo mknod /dev/mychardev c MAJOR_NUMBER 0
+```
+- To find the MAJOR_NUMBER, use ```sudo dmesg``` to find the device it is registered to.
+- To send a message from user space to the kernel:
+```c
+echo "Hello from user space" | sudo tee /dev/mychardev
+```
+- To access the device file created ```/dev/mychardev``` and interact with the driver:
+```c
+sudo cat /dev/mychardev
+```
