@@ -7,6 +7,7 @@ Loadable kernel modules, kernel mutexes (mutual exclusions), spinlocks, etc.
 - [Writing a Linux Kernel Module — Part 1: Introduction](http://derekmolloy.ie/writing-a-linux-kernel-module-part-1-introduction/)
 - [Writing a Linux Kernel Module — Part 2: A Character Device](http://derekmolloy.ie/writing-a-linux-kernel-module-part-2-a-character-device/)
 - [The Linux Kernel documentation](https://www.kernel.org/doc/html/latest/)
+- [How to write your first Linux Kernel Module](https://medium.com/dvt-engineering/how-to-write-your-first-linux-kernel-module-cf284408beeb)
 
 ## What Modules are in my Kernel?
 
