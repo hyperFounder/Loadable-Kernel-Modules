@@ -7,7 +7,7 @@ A Loadable kernel module is called a driver. It's kind of like an API that allow
 ### The ```/dev``` directory: A directory that contains device files
 
 - Each hardware device typically has its own device file.
-- These devices files allow user-space programs to interact with the hardware as if it were a file. For example, reading from the device file can trigger operations on the corresponding hardware.
+- These device files allow user-space programs to interact with the hardware as if it were a file. For example, reading from the device file can trigger operations on the corresponding hardware.
 
 ### Block and Character devices
 
