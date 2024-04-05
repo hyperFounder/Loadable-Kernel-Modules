@@ -126,7 +126,7 @@ echo D > /proc/counter
 ```c
 make
 ```
-- Create and insert the module in the proc directory
+- Create and insert the module in the ```/proc``` directory
 ```c
 sudo insmod counter.ko
 ```
