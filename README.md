@@ -103,7 +103,7 @@ kernel_module.close()
 ```
 -  Now, if you run ```python3 hello.py```, you should see the ```Hello World``` greeting to the terminal.
 ---
-## A mutex counter application 
+## A mutex counter application: counter.c
 
 - We shall implement a kernel module that maintains a shared counter varible that can be either incremented or decremented.
 - To increment a counter varible:
