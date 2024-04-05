@@ -91,7 +91,7 @@ module_exit(custom_exit);
 ```c
 sudo insmod shared.ko
 ```
-- Run cat ```/proc/helloworlddriver```, and you should see our driver returning the ```Hello World``` greeting to the terminal.
+- Run ```cat /proc/helloworlddriver```, and you should see our driver returning the ```Hello World``` greeting to the terminal.
 ---
 - Let’s write our own user space application to interact with this driver.
 ```python
