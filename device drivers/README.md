@@ -123,8 +123,8 @@ static void __exit mychardev_exit(void) {
 ```c
 sudo mknod /dev/mychardev c MAJOR_NUMBER 0
 ```
-- To find the MAJOR_NUMBER, use ```sudo dmesg``` to find the device it is registered to.
 - To send a message from user space to the kernel:
+- - Use ```sudo dmesg``` to view the corresponding output
 ```c
 echo "Hello from user space" | sudo tee /dev/mychardev
 ```
