@@ -4,6 +4,7 @@ A Loadable kernel module is called a driver. It's kind of like an API that allow
 
 - Device drivers are kernel modules (i.e: software code). They act as an interface between hardware devices and the rest of the operating system, enabling communication between OS and hardware.
 - - In other words, the device driver provides the communication on behalf of a user program.
+  - ```/dev``` directory, allow user space to communicate with kernel space through read and write operations, much like regular file ```I/O```.
 
 ### Character Devices: Transfer data one char at a time without buffering.
 
