@@ -46,7 +46,7 @@ sudo apt-get install kmod linux-headers-6.5.0-26-generic
 #include <linux/proc_fs.h>
 #include <linux/uaccess.h>
 ```
-- Let's now create a ```/proc``` directory entry such that user processes can read from to the these files.
+- Let's now create a ```/proc``` directory entry such that user processes can read from these files.
 
 ```c
 static struct proc_dir_entry* proc_entry;
@@ -135,4 +135,54 @@ sudo insmod counter.ko
 - Visualising counter output: ```dmesg``` is used to print or view the messages from the kernel's ring buffer.
 ```c
 sudo dmesg
+```
+## A spinlock Linked List application: list.c
+
+- We shall implement a kernel module that maintains a simple linked list and allows user space programs to read the data from the linked list.
+- It utilizes spin locks to protect shared resources and ```kmalloc``` to allocate memory dynamically.
+---
+- Let's first create our linked list structure
+```c
+struct list_node {
+    int data;
+    struct list_node *next;
+};
+static struct list_node *head = NULL;
+static DEFINE_SPINLOCK(list_lock);
+```
+- Then, we add data to the linked list (in the kernel memory).
+```c
+// Function to add data to the linked list
+static void add_data(int data) {
+    struct list_node *new_node = kmalloc(sizeof(struct list_node), GFP_KERNEL);
+    if (!new_node) {
+        printk(KERN_ERR "Failed to allocate memory for new node\n");
+        return;
+    }
+    spin_lock(&list_lock);
+    new_node->data = data;
+    new_node->next = head;
+    head = new_node;
+    spin_unlock(&list_lock);
+}
+```
+- This is a function that allows us to open the proc file:
+```c
+static int linkedlist_proc_open(struct inode *inode, struct file *file) {
+    // Each file on a filesystem is represented by an inode. Contains file permissions, file sizes, etc.
+    return single_open(file, linkedlist_proc_show, NULL);
+}
+```
+- Then, we display the linked list contents in the proc file.
+- - We're using the ```seq_file``` interface to handle ```proc file``` operations and transfer data from kernel to user space.
+```c
+static int linkedlist_proc_show(struct seq_file *m, void *v) {
+    struct list_node *current_node;
+    spin_lock(&list_lock);
+    for (current_node = head; current_node != NULL; current_node = current_node->next) {
+        seq_printf(m, "%d\n", current_node->data);
+    }
+    spin_unlock(&list_lock);
+    return 0;
+}
 ```
