@@ -27,13 +27,6 @@ static void add_data(int data) {
     spin_unlock(&list_lock);
 }
 
-
-// This is a function that allows us to open the proc file
-static int linkedlist_proc_open(struct inode *inode, struct file *file) {
-    // Each file on a filesystem is represented by an inode. Contains file permissions, file sizes, etc.
-    return single_open(file, linkedlist_proc_show, NULL);
-}
-
 // Function to display the linked list contents in the proc file
 static int linkedlist_proc_show(struct seq_file *m, void *v) {
     struct list_node *current_node;
@@ -43,6 +36,12 @@ static int linkedlist_proc_show(struct seq_file *m, void *v) {
     }
     spin_unlock(&list_lock);
     return 0;
+}
+
+// This is a function that allows us to open the proc file
+static int linkedlist_proc_open(struct inode *inode, struct file *file) {
+    // Each file on a filesystem is represented by an inode. Contains file permissions, file sizes, etc.
+    return single_open(file, linkedlist_proc_show, NULL);
 }
 
 //  A structure which defines what can be performed on the proc file.
