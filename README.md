@@ -14,7 +14,7 @@ To discover what modules are already loaded within your current kernel:
 ```
 sudo lsmod
 ```
-- Modules are stored within the file ```/proc/modules```, so you can also see them with:
+- Modules are stored within the file ```/proc/modules```, so you can also see them with
 ```sudo cat /proc/modules```
 
 ## A simple Kernel Module
