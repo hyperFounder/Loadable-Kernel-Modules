@@ -25,3 +25,15 @@ ryan@ryan-VirtualBox:~/Desktop/shared$ ls -l /dev/zero
 crw-rw-rw- 1 root root 1, 5 Apr  5 01:33 /dev/zero
 ryan@ryan-VirtualBox:~/Desktop/shared$ 
 ```
+---
+### Device Drivers
+- ```file_operations fops``` is commonly used in Linux kernel programming for implementing device drivers:
+```c
+struct file_operations fops = { 
+    .read = device_read,      // Function pointer for reading from the device
+    .write = device_write,    // Function pointer for writing to the device
+    .open = device_open,      // Function pointer for opening the device
+    .release = device_release // Function pointer for releasing the device
+};
+```
+- What is ```ioctl```? It stands for "input-output" control and is used to perform device-specific input/output operations.
