@@ -31,4 +31,4 @@ apt-cache search linux-headers-`uname -r`
 ```c
 sudo apt-get install kmod linux-headers-6.5.0-26-generic
 ```
-- Finally, run the Makefile.
+- Finally, run the Makefile with ```make```. If all goes smoothly you should then find that you have a compiled kernelHello.ko module.
