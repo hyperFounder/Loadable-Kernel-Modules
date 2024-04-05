@@ -101,3 +101,4 @@ print(greeting)
 kernel_module.close()
 ```
 -  Now, if you run ```python3 hello.py```, you should see the ```Hello World``` greeting to the terminal.
+-  In our code, we made a ```custom read``` function. As you might guess, you can override the write function as well, if your module requires some userspace input. For instance, if you had a driver that controls the speed of the fans in your PC, you could give it a write function where you write a percentage number between 0 and 100 to the file, and your driver manually adjusts the fan speed accordingly.
