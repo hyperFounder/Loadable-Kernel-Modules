@@ -46,7 +46,7 @@ sudo apt-get install kmod linux-headers-6.5.0-26-generic
 #include <linux/proc_fs.h>
 #include <linux/uaccess.h>
 ```
-- Let's now create a ```/proc``` directory entry such that user processes can read from/write to the these files.
+- Let's now create a ```/proc``` directory entry such that user processes can read from to the these files.
 
 ```c
 static struct proc_dir_entry* proc_entry;
