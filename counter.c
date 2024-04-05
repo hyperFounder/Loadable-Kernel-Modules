@@ -6,6 +6,7 @@
 #include <linux/mutex.h>
 
 static DEFINE_MUTEX(counter_mutex); // Mutex for counter access
+static DEFINE_SPINLOCK(counter_lock); // Alternative to Mutexes: Spinlock for counter access
 
 static long counter_value = 0;
 
