@@ -102,4 +102,35 @@ print(greeting)
 kernel_module.close()
 ```
 -  Now, if you run ```python3 hello.py```, you should see the ```Hello World``` greeting to the terminal.
--  In our code, we made a ```custom read``` function. As you might guess, you can override the write function as well, if your module requires some userspace input. For instance, if you had a driver that controls the speed of the fans in your PC, you could give it a write function where you write a percentage number between 0 and 100 to the file, and your driver manually adjusts the fan speed accordingly.
+---
+## A mutex counter application 
+
+- We shall implement a kernel module that maintains a shared counter varible that can be either incremented or decremented.
+- To increment a counter varible:
+```c
+echo I > /proc/counter
+```
+- To decrement the counter variable:
+```c
+echo D > /proc/counter
+```
+-   This requires creating a proc file named ```/proc/counter``` to interact with the counter maintained by the kernel module.
+-   Given the fact that we have not implemented a ```.proc_write```, we cannot **read** from the kernel.
+- Why mutexes? If we're using threads to modify the shared variable ```counter```, then the ```mutex locks``` will serialise access of the threads to update the shared variable.
+- The ```copy_from_user()``` function copies the data from the user space into kernel memory.
+
+---
+### Setup Instructions 
+
+- Run the Makefile
+```c
+make
+```
+- Create and insert the module in the proc directory
+```c
+sudo insmod counter.ko
+```
+- Visualising counter output: ```dmesg``` is used to print or view the messages from the kernel's ring buffer.
+```c
+sudo dmesg
+```
