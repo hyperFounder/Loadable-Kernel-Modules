@@ -51,14 +51,16 @@ sudo apt-get install kmod linux-headers-6.5.0-26-generic
 ```c
 static struct proc_dir_entry* proc_entry;
 
+
 static ssize_t custom_read(struct file* file, char __user* user_buffer, size_t count, loff_t* offset)
 {
     printk(KERN_INFO "calling our very own custom read method.");
-    char greeting[] = "Hello world!\n";h
-    int greeting_length = strlen(greeting);
+    char buffy[] = "Hello world!\n";h // Assuming 'buffy' is a kernel space buffer containing data.
+    int n = strlen(buffy); // Buffer length
     if (*offset > 0)
         return 0;
-    if (copy_to_user(user_buffer, greeting, greeting_length))
+    // copy_to_user function is a function to copy data from kernel memory (buffy) to user space (user_buffer)
+    if (copy_to_user(user_buffer, buffy, n))
         return -EFAULT;
     *offset = greeting_length;
     return greeting_length;
