@@ -63,7 +63,7 @@ static int mychardev_open(struct inode *inode, struct file *file) {
 - This function is called when we read from the device.
 - - i.e: data is being sent from the device to the user. Hence, use ```copy_to_user()```.
 ```c
-/ Device read function
+// Device read function
 static ssize_t mychardev_read(struct file *file, char __user *user_buffer, size_t count, loff_t *offset) {
     char message[] = "Hello from the kernel!\n";
     size_t message_len = strlen(message);
