@@ -132,3 +132,16 @@ echo "Hello from user space" | sudo tee /dev/mychardev
 ```c
 sudo cat /dev/mychardev
 ```
+### Automatic recognition of hardware devices
+
+- The operating system's kernel scans the hardware buses (such as USB, PCI, etc.) periodically or in response to specific events to detect newly connected devices.
+- It then retrieves the identification information from each device (i.e: Vendor ID, Product ID, device type, etc)) and matches it against a database of known device drivers.
+- **Device Driver Binding:** If a matching device driver is found for a newly detected device, the kernel binds the driver to the device.
+- - This involves initializing the device driver and creating a device file in the ```/dev``` directory to represent the device to user space.
+---
+
+### GPUs and Device drivers
+
+- GPUs (Graphics Processing Units) are specialized hardware components designed to accelerate graphics rendering and processing tasks.
+- Device drivers for GPUs provide an interface for the operating system to access and control the GPU (set CPU temperature, CPU scheduling, memory management, etc).
+- Security implications: GPU drivers can contain bugs and vulnerabilities that may be exploited by attackers to gain unauthorized access to system resources, execute arbitrary code, escalate privileges, etc.
