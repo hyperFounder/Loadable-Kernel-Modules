@@ -1,4 +1,4 @@
-## Device Drivers
+## Device Drivers 
 
 A Loadable kernel module is called a driver. It's kind of like an API that allows the communication between user space programs and the kernel.
 
