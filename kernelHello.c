@@ -1,5 +1,6 @@
 #include <linux/module.h>  /* Needed by all modules */
 #include <linux/kernel.h>  /* Needed for KERN_ALERT */ 
+#include <linux/kernel.h>  /* Needed for KERN_ALERT */ 
 
 static int __init custom_init(void){
   printk(KERN_INFO "Hello, kernel world!");
